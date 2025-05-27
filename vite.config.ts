@@ -1,17 +1,26 @@
-import react from '@vitejs/plugin-react-swc'
-import { defineConfig } from 'vite'
+import react from "@vitejs/plugin-react-swc";
+import { defineConfig } from "vite";
+import { cloudflare } from "@cloudflare/vite-plugin";
+import chalk from "chalk";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-	if (mode === 'production' && !process.env.TLDRAW_WORKER_URL) {
-		throw new Error('TLDRAW_WORKER_URL must be set in production')
-	}
-
-	return {
-		plugins: [react()],
-		define: {
-			'process.env.TLDRAW_WORKER_URL':
-				process.env.TLDRAW_WORKER_URL ?? '`http://${location.hostname}:5172`',
-		},
-	}
-})
+export default defineConfig({
+  plugins: [
+    cloudflare(),
+    react(),
+    {
+      name: "requestLogger",
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          const timeString = new Date().toLocaleTimeString();
+          console.log(
+            `[${chalk.blue(timeString)}] ${chalk.green(
+              req.method
+            )} ${chalk.yellow(req.url)} ${res.statusCode}`
+          );
+          next();
+        });
+      },
+    },
+  ],
+});
