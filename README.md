@@ -1,5 +1,7 @@
 # tldraw sync server
 
+<a href="https://deploy.workers.cloudflare.com/?url=https://github.com/threepointone/tldraw-sync-cloudflare"><img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare"/></a>
+
 This is a production-ready backend for [tldraw sync](https://tldraw.dev/docs/sync). This is a fork of the original [repository](https://github.com/tldraw/tldraw-sync-cloudflare), but modified to build and deploy completely on to a single Cloudflare Workers project.
 
 - This app uses [Cloudflare Workers](https://developers.cloudflare.com/workers/), and will need
